@@ -1,0 +1,16 @@
+{
+  "x":0,
+  "y":0,
+  "intro":"introductory text",
+  "Actions":{
+    "go there":{
+      "type":"displayText",
+      "text":"Hi"
+    },
+    "move2":{
+      "type":"changeRoom",
+      "target_x":"1",
+      "target_y":"1"
+    }
+  }
+}

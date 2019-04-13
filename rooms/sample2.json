@@ -1,0 +1,16 @@
+{
+  "x":1,
+  "y":1,
+  "intro":"introductory text",
+  "Actions":{
+    "displaytext":{
+      "type":"displayText",
+      "text":"Hi"
+    },
+    "move1":{
+      "type":"changeRoom",
+      "target_x":"0",
+      "target_y":"0"
+    }
+  }
+}
