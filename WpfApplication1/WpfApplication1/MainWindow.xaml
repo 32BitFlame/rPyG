@@ -5,18 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="485.846" Width="919.249" WindowStyle="None">
+        Title="MainWindow" Height="485.846" Width="919.249" WindowStyle="None" Background="#332E2E2E">
     <Viewbox Stretch="UniformToFill">
-        <Grid Height="485.846" Width="919.249" Background="#FF252525">
-            <StackPanel Background="#000033" HorizontalAlignment="Left" Height="486" VerticalAlignment="Top" Width="200" Margin="0,0,0,-0.154">
-                <Image x:Name="image" Height="70" Margin="0,10,0,0"/>
-                <Button x:Name="btn_CreateRoom" Content="Create Room" Margin="0,20,0,0"/>
+        <Grid Height="485.846" Width="919.249" Background="Transparent">
+            <StackPanel Background="#000033" HorizontalAlignment="Left" Height="486" VerticalAlignment="Top" Width="173" Margin="0,0,0,-0.154">
+                <Image x:Name="img_Logo" Height="70" Margin="0,10,0,0"/>
+                <Button x:Name="btn_CreateRoom" HorizontalAlignment="Center" Content="Create Room" Margin="25,20,30,0" Width="118" Height="34"/>
                 <Label x:Name="lbl_Rooms" Content="Rooms" Foreground="White"/>
                 <ListBox x:Name="lb_Rooms" Height="101" Width="176" Background="#FFAE5F00" HorizontalAlignment="Center" Margin="12,0"/>
-
             </StackPanel>
-            <Button x:Name="button" Background="Transparent" BorderBrush="Transparent" Content="X" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="39" Margin="855,0,0,0" Foreground="Red" FontSize="30" FontFamily="Yu Gothic UI Semibold" Click="button_Click"/>
-            <ScrollViewer HorizontalAlignment="Left" Height="336" Margin="200,0,0,0" VerticalAlignment="Top" Width="655"/>
+            <Button x:Name="button" Background="Transparent" BorderBrush="Transparent" Content="X" HorizontalAlignment="Left" VerticalAlignment="Top" Width="41" Height="39" Margin="878,0,0,0" Foreground="Red" FontSize="30" FontFamily="Yu Gothic UI Semibold" Click="button_Click"/>
+            <ScrollViewer HorizontalAlignment="Left" Height="476" Margin="178,0,0,0" VerticalAlignment="Top" Width="700" Background="#33494949"/>
 
         </Grid>
 
