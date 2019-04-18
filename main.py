@@ -1,6 +1,3 @@
-#I am bored.jpg
-#A game by me
-#Copyright non-existant, please don't steal
 plr = None;
 gameActive = True;
 import random as r
@@ -14,11 +11,20 @@ Debug = True;
 currentDirectory = os.path.dirname(__file__)
 options_GUI = bool(open(os.path.join(currentDirectory, "options/options_gui"), "r").read())
 Rooms = {}
+gameOver = False;
+
+def clearShell():
+  try:
+    os.system("cls")
+  except:
+    os.system("clear")
 
 def clampDown(variable, minimum):
   return max(variable, minimum)
+
 def clampUp(variable, maximum):
   return min(variable, maximum)
+
 def randomDecimal(floatA, floatB):
   return (round((r.randrange(floatA * 10, floatB * 10))*0.1))
 
@@ -31,7 +37,6 @@ class BattleAction():
 
 class BattleAction_Attack(BattleAction):
   def __init__(self, parent, actionText, effect, energyUsage, useEnergyOnAttack):
-    self.Parent = parent
     self.ActionText = actionText;
     self.Effect = effect
     BattleAction.__init__(self, parent, energyUsage, useEnergyOnAttack)
@@ -42,6 +47,27 @@ class BattleAction_Attack(BattleAction):
     except:
       raise "targetCharacter is not infact a charcater"
 
+class Battle():
+  def __init__(self, enemies):
+    self.enemies = enemies;
+  def start(self):
+    global gameOver
+    global plr
+    clearShell()
+    while True:
+      print("Player:")
+      print(plr)
+      print("\n Enemies:")
+      for ent in self.enemies:
+        print(ent)
+      plr.BattleAction()
+      for entIndex in range(len(self.enemies)):
+        if(self.enemies[entIndex].health <= 0):
+          print(str(self.enemies[entIndex].Name) + " is down")
+      ent.BattleAction()
+      if(plr.health <= 0):
+        gameOver = True;
+        break
 
 class MAP():
   def __init__(self):
@@ -82,15 +108,39 @@ class NPC():
       return((name, health, atk, defence))
 
 class player():
-  def __init__(self, Name):
+  def __init__(self, Name, battleActions):
     NPC.__init__(self, 25 * randomDecimal(0.5, 1.5), 5 * randomDecimal(0.5, 1.5), 3 * randomDecimal(0.5, 1.5), 1, Name)
     self.inventory = []
     self.x, self.y = 0,0;
+    self.Actions = battleActions
   def __str__(self):
-    return("{0}: Health: {1}, Attack: {2}, Defence {3}".format(self.name, self.health, self.atk, self.defence))
+    return("{0}: Health: {1}, Attack: {2}, Defence {3} \n".format(self.name, self.health, self.atk, self.defence))
+  def BattleAction(self, targets):
+    choice = 0
+    target = 0;
+    while True:
+      try:
+        choice = int(input("Choice: "))
+        if((choice >= len(self.Actions) or (choice < 0))):
+          raise
+      except:
+        print("Please enter a valid number")
+        continue
+      break
+    target = 0;
+    while True:
+      try:
+        target = int(input("Choice: "))
+        if((target >= len(targets) or (target < 0))):
+          raise
+      except:
+        print("Please enter a valid number")
+        continue
+      break
+    self.Actions[choice].do(target)
 
 class action():
-  def do():
+  def do(self):
     pass
 
 #Items
@@ -100,14 +150,16 @@ class item():
   def use(self, target):
     print("use")
     del(self)
+  def __str__(self):
+    return(self.name)
 
 class healingItem(item):
   def __init__(self, Amount, name):
     self.amount = Amount
     self.name = name
   def use(self, target):
-    player.health += self.amount;
-    print()
+    target.health += self.amount;
+    del(self)
 
 class exitapp(action):
   def __init__(self):
@@ -118,13 +170,13 @@ class exitapp(action):
 exitHandler = exitapp();
 
 class inventoryHandler(action):
-  def do():
+  def do(self):
     while True:
       global plr
       localInventory = plr.inventory[:]
       for itemIndex in range(len(localInventory)):
         print("{0}. {1}".format(itemIndex, localInventory[itemIndex]))
-      print("{0}. {1}".format(len(localInventory, "Exit Inventory")))
+      print("{0}. {1}".format(len(localInventory), "Exit Inventory"))
       indexTarget = 0
       while True:
         try:
@@ -135,33 +187,43 @@ class inventoryHandler(action):
         break
       if(indexTarget == len(localInventory)):
         break
-      plr.inventory[indexTarget].use();
-    return      
-      
+      plr.inventory[indexTarget].use(plr);
+      del(plr.inventory[indexTarget]) 
+invHandler = inventoryHandler()  
+
 #Room one individual area
 class room():
   def __init__(self, x, y, intro, room_actions={}):
+    self.started = False;
     global exitHandler
     self.actions = room_actions
     self.actions["quit"] = exitHandler
+    global invHandler
+    self.actions["Inventory"] = invHandler
     world.SET(x,y,self)
     self.introFin = False;
     self.intro = intro
   def action(self):
+    global plr
+    global gameOver
+    if(not(self.started)):
+      try:
+        self.actions["init"].do();
+      except:
+        pass
+      self.started = True;
     print(self.intro)
     room_actions_list = list(self.actions.keys())
-    try:
-      self.actions[input(room_actions_list)].do()
-    except IOError:
-      print("Your data may be corrupt")
-      return
-    except KeyError:
-      print("Command does not exist")
-      return
-    finally:
-      clampUp(plr.health, plr.maxHealth)
-      clampDown(plr.health, 0)
-    readchar.readchar();  
+    while True:
+      try:
+        self.actions[input(room_actions_list)].do()
+      except KeyError:
+        print("Command does not exist")
+        continue
+      break
+    if(plr.health <= 0):
+      gameOver = True;
+    
 
 #Any actions that heal a character
 class roomAction_heal():
@@ -187,8 +249,13 @@ class enemy():
     NPC.__init__(self, health, damage, defence, name=Name)
     self.Actions = actions
     self.actionprob = []
-  def battleAction(self):
+  def BattleAction(self):
+    global plr
     choice = r.randint(0, len(self.actionprob)-1)
+    if(len(self.actionprob) == 0):
+      print(self.name + "couldn't do anything")
+      return
+    self.actionsprob[choice].do(plr)
 
 class roomAction_changeRoom():
   def __init__(self, x, y):
@@ -200,12 +267,20 @@ class roomAction_changeRoom():
     plr.x = self.newX
     plr.y = self.newY
 
+class roomAction_dealDamage():
+  def __init__(self, damage, text):
+    self.Damage = damage
+    self.Text = text
+  def do(self):
+    print(self.Text)
+    plr.health-=self.Damage
+
 class roomAction_itemGet():
   def __init__(self, text="got a thing", item=healingItem(10, "Potion")):
-    self.Item = healingItem;
+    self.Item = item;
   def do(self):
     global plr
-    plr.inventory.append(self.item)
+    plr.inventory.append(self.Item)
     
 class roomAction_displayText():
   def __init__(self, text):
@@ -214,7 +289,7 @@ class roomAction_displayText():
     print(self.text)
 
 class jsonActionHandler_par():  
-  def do(actionHandler):
+  def do(self, actionHandler):
     raise "not implemented"
 
 class jsonActionHandler_typeof_changeroom(jsonActionHandler_par):
@@ -223,23 +298,28 @@ class jsonActionHandler_typeof_changeroom(jsonActionHandler_par):
     target_y = actionDictionary["target_y"]
     return roomAction_changeRoom(target_x, target_y)
 
+class jsonActionHandler_typeof_dealDamage():
+  def do(self, actionDictionary):
+    return roomAction_dealDamage(actionDictionary["damage"], actionDictionary["text"])
+
 class jsonActionHandler_typeof_displayText():
   def do(self, actionDictionary):
     return(roomAction_displayText(actionDictionary["text"]))
 
 class jsonActionHandler_typeof_itemGet_heal(jsonActionHandler_par):
-  def do(actionDictionary):
+  def do(self, actionDictionary):
     itemDictionary = actionDictionary["item"]
     return(roomAction_itemGet(item=healingItem(itemDictionary["amount"], itemDictionary["name"])))
 
 jsonActionHandlers={
   "changeRoom":jsonActionHandler_typeof_changeroom(),
   "giveItem_heal":jsonActionHandler_typeof_itemGet_heal(),
-  "displayText":jsonActionHandler_typeof_displayText()
+  "displayText":jsonActionHandler_typeof_displayText(),
+  "dealDamage":jsonActionHandler_typeof_dealDamage()
 }
 
 class jsonActionHandler_typeof_itemGet(jsonActionHandler_par):
-  def do(actionDictionary):
+  def do(self, actionDictionary):
     itemDictionary = actionDictionary["item"]
     return(jsonActionHandlers[itemDictionary["type"]].do(actionDictionary))
 
@@ -259,15 +339,16 @@ for roomFile in os.listdir():
 os.chdir("..")
 #Game Test
 try:
-  print("Shell required")
-  plr = player(str(input("Player Name: ")))
-  
-  while gameActive:
+  print("Shell required \n")
+  plr = player(str(input("Player Name: ")), [])  
+  while not(gameOver):
+    print(plr)
     world.GET(int(plr.x), int(plr.y)).action()
+    input("Press enter to continue")
 except:
   open("errorDump.txt", "w").close()
   dumpFile = open("errorDump.txt", "a")
   for x in globals():
-    dumpFile.writeline(id(x)+str(x))
+    dumpFile.write(str(id(x))+str(x) +"\n")
   for x in locals():
-    dumpFile.writeline(id(x)+str(x))
+    dumpFile.write(str(id(x))+str(x)+"\n")
