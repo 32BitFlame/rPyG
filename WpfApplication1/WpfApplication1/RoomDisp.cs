@@ -12,15 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using Newtonsoft.Json;
 namespace WpfApplication1
 {
-    public class RoomDisp
+    public class RoomDisp : SubWindow
     {
-        private string jsonData;
-        public RoomDisp(string jsondata)
+        private StackPanel MainPanel;
+        private List<object> Children;
+        private dynamic jsonData;
+
+        public RoomDisp(string jsondata, float width, float height) : base(height, width)
         {
-            this.jsonData = jsondata;
+            jsonData = JsonConvert.DeserializeObject(jsondata);
+            MainPanel.Width = width;
+            MainPanel.Height = height;
+
+
         }
 
     }
