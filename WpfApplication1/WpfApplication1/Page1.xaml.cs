@@ -20,9 +20,27 @@ namespace WpfApplication1
     /// </summary>
     public partial class Page1 : Page
     {
-        public Page1()
+        public Page1(string headerText)
         {
             InitializeComponent();
+
+            lbl_Head.Content = headerText;
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        
+        public Dictionary<string, object> Close()
+        {
+            Dictionary<string, object> data = new Dictionary<string, object>();
+            string InitText = tb_InitalText.Text;
+            ItemCollection actions = lb_Actions.Items;
+            data["Actions"] = actions;
+            data["InitText"] = InitText;
+
+            return data;
         }
     }
 }

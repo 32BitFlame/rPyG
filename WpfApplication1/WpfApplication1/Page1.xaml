@@ -8,7 +8,7 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="Page1">
     <Viewbox Stretch="Fill">
-    <Grid Height="300">
+    <Grid x:Name="WindowGrid" Height="300">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="Black" Offset="0"/>
@@ -20,7 +20,7 @@
         <Label Content="Actions:" HorizontalAlignment="Left" Margin="25,96,0,0" VerticalAlignment="Top" FontFamily="Lucida Console"/>
         <Button x:Name="button" Background="Transparent" BorderBrush="Transparent" Content="X" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="39" Margin="250,-7,-14,0" Foreground="Red" FontSize="30" FontFamily="Yu Gothic UI Semibold" Click="button_Click"/>
         <TextBox x:Name="tb_InitalText" HorizontalAlignment="Left" Height="23" Margin="127,48,0,0" TextWrapping="Wrap" BorderBrush="#000033" VerticalAlignment="Top" Width="120" Background="{x:Null}"/>
-        <ListBox x:Name="lb_Actions" HorizontalAlignment="Left" Height="142" Margin="52,123,0,0" VerticalAlignment="Top" Width="195" BorderBrush="#FF570000" Background="{x:Null}"/>
+            <ListBox x:Name="lb_Actions" SelectedValuePath="Key" DisplayMemberPath="Value" HorizontalAlignment="Left" Height="142" Margin="52,123,0,0" VerticalAlignment="Top" Width="195" BorderBrush="#FF570000" Background="{x:Null}"/>
 
     </Grid>
     </Viewbox>
