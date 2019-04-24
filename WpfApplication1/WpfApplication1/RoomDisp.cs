@@ -17,17 +17,17 @@ namespace WpfApplication1
 {
     public class RoomDisp : SubWindow
     {
-        private StackPanel MainPanel;
+        private Frame SubWindowFrame;
         private List<object> Children;
         private dynamic jsonData;
 
-        public RoomDisp(string jsondata, float width, float height) : base(height, width)
+        public RoomDisp(string jsondata, float width, float height) : base(height, width, "RoomDisp")
         {
             jsonData = JsonConvert.DeserializeObject(jsondata);
-            MainPanel.Width = width;
-            MainPanel.Height = height;
+            SubWindowFrame.Width = width;
+            SubWindowFrame.Height = height;
 
-
+            Children.Add(new Page1(jsonData["Name"]));
         }
 
     }

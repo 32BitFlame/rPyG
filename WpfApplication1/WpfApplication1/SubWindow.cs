@@ -17,15 +17,16 @@ namespace WpfApplication1
 {
     public abstract class SubWindow
     {
-        private StackPanel MainPanel;
+        private Frame SubWindowFrame;
         private List<object> Children;
-
-        public SubWindow(float height, float width)
+        public string Type { get; }
+        public SubWindow(float height, float width, string type)
         {
-            this.MainPanel.Width = width;
-            this.MainPanel.Height = height;
+            Type = type;
+            SubWindowFrame.Width = width;
+            SubWindowFrame.Height = height;
         }
-        public StackPanel GetStackPanel() => MainPanel;
+        public Frame GetFrame() => SubWindowFrame;
 
         
     }
