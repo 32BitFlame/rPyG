@@ -7,8 +7,8 @@
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Title="Page1">
-
-    <Grid>
+    <Viewbox Stretch="Fill">
+    <Grid Height="300">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="Black" Offset="0"/>
@@ -23,4 +23,5 @@
         <ListBox x:Name="lb_Actions" HorizontalAlignment="Left" Height="142" Margin="52,123,0,0" VerticalAlignment="Top" Width="195" BorderBrush="#FF570000" Background="{x:Null}"/>
 
     </Grid>
+    </Viewbox>
 </Page>
