@@ -20,15 +20,27 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<RoomDisp> RoomsList;
+        public ObservableCollection<RoomDisp> SubWindows;
         public MainWindow()
         {
             InitializeComponent();
+
+            RoomsViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            RoomsViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+            foreach(SubWindow sub in SubWindows)
+            {
+                
+            }
             Application.Current.Shutdown();
+        }
+
+        private void btn_CreateRoom_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
