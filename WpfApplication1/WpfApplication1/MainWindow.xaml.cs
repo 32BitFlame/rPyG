@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Collections.ObjectModel;
 namespace WpfApplication1
 {
     /// <summary>
@@ -20,6 +20,7 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
+        public ObservableCollection<RoomDisp> RoomsList;
         public MainWindow()
         {
             InitializeComponent();
