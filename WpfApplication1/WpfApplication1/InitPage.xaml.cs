@@ -15,19 +15,20 @@ using System.Windows.Shapes;
 
 namespace WpfApplication1
 {
-    public abstract class SubWindow
+    /// <summary>
+    /// Interaction logic for InitPage.xaml
+    /// </summary>
+    public partial class InitPage : Page
     {
-        private Frame SubWindowFrame;
-        private List<object> Children;
-        public string Type { get; }
-        public SubWindow(float height, float width, string type)
+        public InitPage()
         {
-            Type = type;
-            SubWindowFrame.Width = width;
-            SubWindowFrame.Height = height;
+            InitializeComponent();
         }
-        public Frame GetFrame() => SubWindowFrame;
 
-        
+        private void btn_Close_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
     }
 }
