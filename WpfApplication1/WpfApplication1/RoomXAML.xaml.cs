@@ -44,6 +44,7 @@ namespace WpfApplication1
         }
         public void Close()
         {
+            JSON["intro"] = tb_InitText; //Edit At Home
             File.WriteAllText(JSON["Path"] as string, JsonConvert.SerializeObject(JSON));
         }
 
