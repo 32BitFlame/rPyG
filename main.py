@@ -292,10 +292,16 @@ class jsonActionHandler_par():
   def do(self, actionHandler):
     raise "not implemented"
 
+class jsonActionHandler_InitBattle():
+  def __init__(self, actionDictionary):
+    npcsDicts = actionDictionary["npcs"]
+    for npc in npcsDicts:
+      newChar = enemy(npc["health"], npc["damage"], defence, Name, actions)
+
 class jsonActionHandler_typeof_changeroom(jsonActionHandler_par):
   def do(self, actionDictionary):
-    target_x = actionDictionary["target_x"]
-    target_y = actionDictionary["target_y"]
+    target_x = int(actionDictionary["target_x"])
+    target_y = int(actionDictionary["target_y"])
     return roomAction_changeRoom(target_x, target_y)
 
 class jsonActionHandler_typeof_dealDamage():
@@ -329,7 +335,7 @@ for roomFile in os.listdir():
   print(roomFile)
   currentRoomFile = open(roomFile, "r").read()
   roomData = json.loads(currentRoomFile)
-  actionsDictionary = roomData["Actions"]
+  actionsDictionary = json.loads(roomData["Actions"])
   roomActions = {}
   for actionKey in actionsDictionary.keys():
     currentDictionary = actionsDictionary[actionKey];
