@@ -8,7 +8,7 @@ namespace WpfApplication1
 {
     public class Room
     {
-        private Hashtable Hasht;
+        public Hashtable Hasht;
         public string Name { get; }
         public Room(Hashtable ht)
         {

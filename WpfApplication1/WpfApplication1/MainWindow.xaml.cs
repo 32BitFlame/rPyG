@@ -40,6 +40,7 @@ namespace WpfApplication1
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+            mainRoomDictionary = new Hashtable();
             //Exit App
 
             //Get Room Dir
@@ -100,8 +101,8 @@ namespace WpfApplication1
         private void Lb_Rooms_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //Select new room
-            mainRoomDictionary = lb_Rooms.SelectedItem as Hashtable;
-
+            mainRoomDictionary = (lb_Rooms.SelectedItem as Room).Hasht;
+            Console.WriteLine(mainRoomDictionary);
             //Change Frame to mainRoom Editor
             RoomXAML roomDisp = new RoomXAML(mainRoomDictionary);
 

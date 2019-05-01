@@ -25,17 +25,17 @@ namespace WpfApplication1
     /// </summary>
     public partial class RoomXAML : Page
     {
-        private Hashtable Hash;
-        private ObservableCollection<Hashtable> hashes;
         public ObservableCollection<Action> actions;
-        private Hashtable JSON;
+        public Hashtable JSON;
         public RoomXAML(Hashtable roomDict)
         {
             InitializeComponent();
-
+            JSON = new Hashtable();
             this.JSON = roomDict;
-            Hash = new Hashtable();
-            //foreach(string key in (JSON.Keys))
+            foreach(Hashtable ht in (this.JSON["Actions"] as Hashtable))
+            {
+                actions.Add(new Action(ht));
+            }
             lb_Actions.DataContext = actions;
         }
         public void Refresh()
@@ -44,7 +44,7 @@ namespace WpfApplication1
         }
         public void Close()
         {
-            JSON["intro"] = tb_InitText; //Edit At Home
+            JSON["intro"] = tb_InitalText.Text;
             File.WriteAllText(JSON["Path"] as string, JsonConvert.SerializeObject(JSON));
         }
 
