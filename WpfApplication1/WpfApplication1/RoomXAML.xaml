@@ -21,7 +21,8 @@
         <Button x:Name="btn_Close" Background="Transparent" BorderBrush="Transparent" Content="X" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="39" Margin="250,-7,-14,0" Foreground="Red" FontSize="30" FontFamily="Yu Gothic UI Semibold" Click="btn_Close_Click"/>
         <TextBox x:Name="tb_InitalText" HorizontalAlignment="Left" Height="23" Margin="127,48,0,0" TextWrapping="Wrap" BorderBrush="#000033" VerticalAlignment="Top" Width="120" Background="{x:Null}"/>
             <ListBox DisplayMemberPath="Name" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" x:Name="lb_Actions" HorizontalAlignment="Left" Height="142" Margin="52,123,0,0" VerticalAlignment="Top" Width="195" BorderBrush="#FF570000" Background="{x:Null}"/>
+            <Button x:Name="button" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="64,10,0,0" Click="Button_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"/>
 
-    </Grid>
+        </Grid>
     </Viewbox>
 </Page>

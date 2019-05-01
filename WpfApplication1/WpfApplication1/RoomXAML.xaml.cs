@@ -42,15 +42,9 @@ namespace WpfApplication1
         {
             lbl_Head.Content = JSON["Name"];
         }
-        public Hashtable Close()
+        public void Close()
         {
-            Hashtable data = new Hashtable();
-            string InitText = tb_InitalText.Text;
-            ItemCollection actions = lb_Actions.Items;
-            data["Actions"] = actions;
-            data["InitText"] = InitText;
-
-            return data;
+            File.WriteAllText(JSON["Path"] as string, JsonConvert.SerializeObject(JSON));
         }
 
         private void btn_Close_Click(object sender, RoutedEventArgs e)
@@ -66,6 +60,11 @@ namespace WpfApplication1
                 case MessageBoxResult.No:
                     break;
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
